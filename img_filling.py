@@ -12,6 +12,9 @@ def image_filling(ori_img,dst_img,bbox,method):
     if ori_img is None or dst_img is None:
         print(" input image should not empty!")
         return None
+    if ori_img.shape[0] < bbox[2] + bbox[4] or ori_img.shape[1] <   bbox[2] + bbox[4]:
+        print(" input image size should not < filling size !")
+        return None
     if method == "a":
         ori_img =cv2.resize(ori_img,(bbox[2],bbox[3]))
         dst_img[bbox[1]:bbox[1]+bbox[3],bbox[0]:bbox[0]+bbox[2],:] = ori_img
@@ -35,6 +38,7 @@ if __name__ == "__main__":
     ori=cv2.imread("img2.jpg")
     dst=cv2.imread("img1.jpg")
     box = np.array([x1, y1, width, height])
+    
     filling_result = image_filling(ori,dst,box,"b")
     cv2.imshow("result",filling_result)
     cv2.waitKey(0)
